@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>template</title>
+    <script src="template.js"></script>
+    <script src="../components/cors.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/1.8.3/jquery.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <base href="http://127.0.0.1:8080">
+
+</head>
+
+<body>
+<div align="center">
+    <h2>增加模板</h2>
+    <br/><br/>
+
+    <div align="left">
+        <select name="addTemplateSelect" id="addTemplateSelect">
+            <option value="wechat">
+                Wechat
+            </option>
+            <option value="email">
+                Email
+            </option>
+            <option value="sms">
+                Sms
+            </option>
+            <option value="android">
+                Android
+            </option>
+            <option value="ios">
+                IOS
+            </option>
+        </select>
+        <button onclick="showForm()">ok</button>
+    </div>
+    <br>
+
+    <script>
+        $(document).ready(() => {
+            $("#wec").submit(() => {
+                return false;
+            });
+        });
+    </script>
+
+    <div style="display: none" id="wechat-form">
+        <form id="wec">
+            tid<label for="tid"></label><input type="text" id="tid"><br>
+            first<input type="text" name="first" id="first"><br>
+            keyword1<input type="text" name="keyword1" id="keyword1"><br>
+            keyword2<input type="text" name="keyword2" id="keyword2"><br>
+            keyword3<input type="text" name="keyword3" id="keyword3"><br>
+            keyword4<input type="text" name="keyword4" id="keyword4"><br>
+            remark<input type="text" name="remark" id="remark"><br>
+
+            alias1<input type="text" id="alias1"><br>
+            alias2<input type="text" id="alias2"><br>
+            alias3<input type="text" id="alias3"><br>
+            alias4<input type="text" id="alias4"><br>
+            alias5<input type="text" id="alias5"><br>
+
+            <button onclick="wechatDeal()">submit</button>
+
+        </form>
+    </div>
+
+    <div style="display: none" id="email-form">
+        <script>
+            $(document).ready(() => {
+                $("#ema").submit(() => {
+                    return false;
+                });
+            });
+        </script>
+        <form id="ema">
+            subject<input type="text" name="keyword1" id="subject"><br>
+            text<input type="text" name="keyword2" id="text"><br>
+            alias1<input type="text" id="ema-alias1"><br>
+            alias2<input type="text" id="ema-alias2"><br>
+            alias3<input type="text" id="ema-alias3"><br>
+            alias4<input type="text" id="ema-alias4"><br>
+            <button onclick="emailDeal()">submit</button>
+        </form>
+    </div>
+    <div style="display: none">
+
+    </div>
+    <div style="display: none">
+
+    </div>
+
+</div>
+
+<br/><br/>
+
+<div align="center">
+    <h2>查询模板</h2>
+    <br/><br/>
+    <button onclick="hideTemplate()">hide</button>
+
+    <button id="list" onclick="listTemplate()">list</button>
+    <br/><br/>
+
+    <div id="xxx" style="display: none">
+        <table border="1" width="700" align="center" cellspacing="0" cellpadding="6">
+            <caption>模板列表</caption>
+            <thead>
+            <tr align="left">
+                <td>类型</td>
+                <td>tid</td>
+                <td>alias</td>
+                <td>format</td>
+            </tr>
+            </thead>
+            <tbody id="container">
+            <!--//todo 表格内容使用模板渲染 -->
+            <script type="text/x-handlebars-template" id="template">
+                {{#each this}}
+
+                    <tr align="left">
+                        <td>{{type}}</td>
+                        <td>{{tid}}</td>
+                        <td>{{alias}}</td>
+                        <td>{{format}}</td>
+                    </tr>
+
+                {{/each}}
+            </script>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div align="center">
+    <br/><br/>
+    <h2>删除模板</h2>
+    <script>
+        $(document).ready(() => {
+            $("#delete").submit(() => {
+                return false;
+            });
+        });
+
+        function deleteTemplate() {
+            console.log({tid: document.getElementById("DelTid").value})
+
+            $.ajax({
+                url: "/template" + "?tid=" + document.getElementById("DelTid").value,
+                type: "DELETE",
+                contentType: "multipart/form-data",
+                success: (data, status) => {
+                    console.log(data)
+                    console.log(status)
+                    alert(status)
+                }
+            })
+        }
+    </script>
+    <form id="delete">
+        tid<input type="text" id="DelTid">
+        <button onclick="deleteTemplate()">submit</button>
+    </form>
+</div>
+
+
+</body>
+</html>
